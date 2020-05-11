@@ -54,6 +54,38 @@ print('保存')
 doc.save('test.docx')
 
 
+# 对文字字体样式进行修改
+from docx.shared import Pt, RGBColor
+from docx.oxml.ns import qn
+from docx import Document
 
+doc = Document('test.docx')
+
+for paragraph in doc.paragraphs:
+    for run in paragraph.runs:
+        run.font.bold = True
+        run.font.italic = True
+        run.font.underline = True
+        run.font.strike = True  # 删除线
+        run.font.shadow = True
+        run.font.size = Pt(20)
+        run.font.color.rgb = RGBColor(255, 255, 0)
+
+        run.font.name = '微软雅黑'
+        r = run._element.rPr.rFonts
+        r.set(qn('w:eastAsia'), '微软雅黑')
+
+doc.save('test1.docx')
+
+# 段落样式的修改
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+
+# 行间距
+paragraph.paragraph_format.line_spacing = 2.0
+
+# 段前与段后间距
+paragraph.paragraph_format.space_before = Pt(12)
+paragraph.paragraph_format.space_after = Pt(12)
 
 
